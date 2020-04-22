@@ -8,12 +8,14 @@ using namespace std;
 int n ;
 struct bus_struct
 {
-    char ind[5], bus_no[10],src[25], dest[25], max_seat[5], seats_avail[5],stops[100];
+    char ind[5], bus_no[10],src[25], dest[25], max_seat[5], seats_avail[5],stops[20][20];
+    //string stops[100];
 };
 class Bus
 {
 private:
-    char ind[5], bus_no[10],src[25], dest[25], max_seat[5], seats_avail[5],stops[100];
+    char ind[5], bus_no[10],src[25], dest[25], max_seat[5], seats_avail[5],stops[20][20];
+    //string stops[100];
     char buffer[110];
     int bus_index,i;
     void read()
@@ -26,11 +28,14 @@ private:
         cin >> dest;
         cout<<"\t\t\t\t\t\t\t";cout << "Maximun Seats : ";
         cin >> max_seat;
-        cout<<"enter the number of stops";
+        cout<<"\t\t\t\t\t\t\t";cout<<"enter the number of stops:";
         cin>>n;
+        cout<<"\t\t\t\t\t\t\t";cout<<"enter  "<<n<<"  stops :\n";
+        cout<<"\t\t\t\t\t\t\t";
         for(i=0;i<n;i++)
         {
           cin>>stops[i];
+          cout<<"\t\t\t\t\t\t\t";
         }
     }
 
@@ -65,7 +70,8 @@ public:
         strcat(buffer, max_seat);strcat(buffer, "|");
         for(i=0;i<n;i++)
         {
-          strcat(buffer,stops);strcat(buffer, "|");
+          strcat(buffer,stops[i]);
+          strcat(buffer, "|");
         }
         bus_index++;
         record << bus_index << "|";
@@ -73,7 +79,7 @@ public:
         strcat(buffer, "\n");
         record.write(buffer, strlen(buffer));
         record.close();
-        cout<<"\t\trecord added Successfully"<<endl;
+        cout<<"record added Successfully"<<endl;
     }
      void display()
     {
@@ -83,7 +89,7 @@ public:
             fstream file;
             file.open("bus.txt", ios::in);
             cout<<"\t\t\t";cout << "+---------------+---------------+---------------+---------------+---------------+-------+-------+---------------+\n";
-            cout<<"\t\t\t";cout << "|bus No.\t|Source\t\t|Destination\t|Seats Available|\n";
+            cout<<"\t\t\t";cout << "|bus No.\t|Source\t\t|Destination\t|stops|\n";
             cout<<"\t\t\t";cout << "+---------------+---------------+---------------+---------------+---------------+-------+-------+---------------+\n";
             while (!file.eof())
             {
@@ -92,11 +98,19 @@ public:
                 file.getline(src, 25, '|');
                 file.getline(dest, 25, '|');
                 file.getline(max_seat, 4, '|');
-                file.getline(seats_avail, 4, '|');
+                //file.getline(seats_avail, 4, '|');
+                for(i=0;i<n;i++)
+                {
+                    file.getline(stops[i],40, '|');
+                }
                 file.getline(extra, 100, '\n');
                 if (strlen(bus_no) > 0){
-                    cout<<"\t\t\t";cout << "|" << bus_no << "\t\t|" << src << "\t|" << dest << "\t|" <<seats_avail<< "\t\t|\n";
-                }
+                    cout<<"\t\t\t";cout << "|" << bus_no << "\t\t\t|" << src << "\t\t|" << dest << "\t\t\t|";
+                    for(i=0;i<n;i++)
+                    {
+                       cout<<stops[i]<<"\t";
+                    }
+                }cout<<"\n";
             }
             cout<<"\t\t\t";cout << "+---------------+---------------+---------------+---------------+---------------+-------+-------+---------------+\n";
             file.close();
