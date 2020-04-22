@@ -1,3 +1,0 @@
-1|1|mandya|mysore|100|hu|hu|
-3|2|mysore|red|100|as|as|
-4|3|dn|sn|120|we|we|
