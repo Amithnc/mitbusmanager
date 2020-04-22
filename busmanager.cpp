@@ -5,17 +5,17 @@
 #include <iostream>
 #include <termios.h>
 using namespace std;
-
+int n ;
 struct bus_struct
 {
-    char ind[5], bus_no[10],src[25], dest[25], max_seat[5], seats_avail[5];
+    char ind[5], bus_no[10],src[25], dest[25], max_seat[5], seats_avail[5],stops[100];
 };
 class Bus
 {
 private:
-    char ind[5], bus_no[10],src[25], dest[25], max_seat[5], seats_avail[5];
+    char ind[5], bus_no[10],src[25], dest[25], max_seat[5], seats_avail[5],stops[100];
     char buffer[110];
-    int bus_index;
+    int bus_index,i;
     void read()
     {
         cout<<"\t\t\t\t\t\t\t";cout << "bus number : ";
@@ -26,6 +26,12 @@ private:
         cin >> dest;
         cout<<"\t\t\t\t\t\t\t";cout << "Maximun Seats : ";
         cin >> max_seat;
+        cout<<"enter the number of stops";
+        cin>>n;
+        for(i=0;i<n;i++)
+        {
+          cin>>stops[i];
+        }
     }
 
 public:
@@ -57,13 +63,17 @@ public:
         strcat(buffer, src);strcat(buffer, "|");
         strcat(buffer, dest);strcat(buffer, "|");
         strcat(buffer, max_seat);strcat(buffer, "|");
-        strcat(buffer, max_seat);strcat(buffer, "|");
+        for(i=0;i<n;i++)
+        {
+          strcat(buffer,stops);strcat(buffer, "|");
+        }
         bus_index++;
         record << bus_index << "|";
         index_by_src_dest << bus_no << "|" << src << "|" << dest << "|" << bus_index << "\n";
         strcat(buffer, "\n");
         record.write(buffer, strlen(buffer));
         record.close();
+        cout<<"\t\trecord added Successfully"<<endl;
     }
      void display()
     {
@@ -102,6 +112,7 @@ void admin()
    struct bus_struct temp;
    char bus_no[10];
    int ch = 0;
+   do
    {
         Bus bus = Bus();
         cout<<"\t\t\t\t\t\t\t";cout << "+----------------------------------+\n";
